@@ -1,0 +1,3 @@
+[submodule "svelte-todo-app"]
+	path = svelte-todo-app
+	url = https://github.com/ThronKatze0/svelte-todo-app
