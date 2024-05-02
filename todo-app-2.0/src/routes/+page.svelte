@@ -1,22 +1,33 @@
 <script lang="ts">
 	import { Modal, getModalStore, initializeStores } from '@skeletonlabs/skeleton';
 	import type { ModalSettings, ModalComponent, ModalStore } from '@skeletonlabs/skeleton';
+	initializeStores();
 
 	class Todo {
 		name: string;
 		checked: boolean;
 		id: number;
+		editModal: ModalSettings;
 
 		constructor(name: string) {
 			this.name = name;
 			this.checked = false;
 			this.id = Math.floor(Math.random() * 100);
+			this.editModal = {
+				type: 'prompt',
+				title: 'Edit Todo',
+				body: 'You can edit your Todo below',
+				value: this.name,
+				valueAttr: { type: 'text', minlength: 3, maxlength: 10, required: true },
+				response: (r: string) => {
+					this.name = r;
+					todos = todos;
+				}
+			};
 		}
 	}
-	initializeStores();
 
 	let inputName: string;
-	let todoToEdit: Todo = new Todo('fdfs');
 	let modalStore: ModalStore = getModalStore();
 
 	let todos: Array<Todo> = [
@@ -30,17 +41,6 @@
 		todos = [...todos, new Todo(inputName)];
 		inputName = '';
 	}
-	const editModal: ModalSettings = {
-		type: 'prompt',
-		title: 'Edit Todo',
-		body: 'You can edit your Todo below',
-		value: todoToEdit.name,
-		valueAttr: { type: 'text', minlength: 3, maxlength: 10, required: true },
-		response: (r: string) => {
-			todoToEdit.name = r;
-			todos = todos;
-		}
-	};
 </script>
 
 <Modal />
@@ -74,7 +74,7 @@
 				<div class="flex flex-row justify-end">
 					<button
 						type="submit"
-						class="btn variant-filled"
+						class="btn variant-filled mr-3"
 						on:click={() => {
 							todos.splice(i, 1);
 							todos = todos;
@@ -84,8 +84,8 @@
 						type="submit"
 						class="btn variant-filled"
 						on:click={() => {
-							todoToEdit = todo;
-							modalStore.trigger(editModal);
+							todo.editModal.value = todo.name;
+							modalStore.trigger(todo.editModal);
 						}}>Edit</button
 					>
 				</div>

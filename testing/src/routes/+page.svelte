@@ -1,14 +1,24 @@
-<script lang="typescript">
-  let count = 0;
-  function countUp() {
-    count += 1;
-  }
-  function reset() {
-    count = 0;
-  }
+<script lang="ts">
+  let counter: number = 0;
+  let input: number = NaN;
 </script>
 
-<h2>Counter</h2>
-<p>{count}</p>
-<button on:click={countUp}>Count up</button>
-<button on:click={reset}>Reset</button>
+<h1>{counter}</h1>
+<button
+  on:click={() => {
+    counter++;
+  }}>Plus</button
+>
+<button
+  on:click={() => {
+    counter = 0;
+  }}>Reset</button
+>
+<br />
+<input type="number" bind:value={input} />
+<button
+  on:click={() => {
+    counter += input;
+    input = NaN;
+  }}>Plus Custom</button
+>
