@@ -17,11 +17,13 @@
 				type: 'prompt',
 				title: 'Edit Todo',
 				body: 'You can edit your Todo below',
-				value: this.name,
+				value: '',
 				valueAttr: { type: 'text', minlength: 3, maxlength: 10, required: true },
 				response: (r: string) => {
-					this.name = r;
-					todos = todos;
+					if (r) {
+						this.name = r;
+						todos = todos;
+					}
 				}
 			};
 		}
